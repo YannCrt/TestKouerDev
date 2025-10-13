@@ -1,15 +1,46 @@
-import header from "../../../../../public/images/header.png";
+import Image from "next/image";
 
 export default function Header() {
     return (
-        <header className="flex items-center justify-between px-6 py-4 bg-gray-900 text-white shadow-md">
-            <h1 className="text-xl font-bold">MonSite</h1>
+        <header className="relative w-full h-32 md:h-40 lg:h-48">
+            {/* Image de fond */}
+            <div className="absolute inset-0">
+                <Image
+                    src="/images/header/header.jpg"
+                    alt="Header background"
+                    fill
+                    className="object-cover"
+                    priority
+                />
 
-            <nav className="flex gap-4">
-                <a href="">Home</a>
-                <a href="/about">À propos</a>
-                <a href="/contact">Contact</a>
-            </nav>
+                <div className="absolute inset-0 bg-black/40"></div>
+            </div>
+
+
+            <div className="relative z-10 ml-4 h-full flex flex-col justify-between p-4 md:p-6">
+
+                <div className="flex items-center gap-2 text-white text-sm">
+                    <a href="/"><Image
+                        src="/images/header/arrow.png"
+                        alt="Home"
+                        width={20}
+                        height={20}
+                        className="rounded-[30px]"
+                    /></a>
+                    <a href="/">
+                        <Image
+                            src="/images/header/house.png"
+                            alt="Home"
+                            width={20}
+                            height={20}
+                            className="rounded-[30px]"
+                        /></a>
+                    <span>Accueil / Tous les produits</span>
+                </div>
+                <h1 className="text-white pb-7  font-medium leading-[70px] tracking-normal align-middle text-6xl ">
+                    Tous nos produits
+                </h1>
+            </div>
         </header>
     );
 }
