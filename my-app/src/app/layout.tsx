@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "./Header/page";
-import Footer from "./Footer/page";
+import Header from "./components/ui/Header/page";
+import Footer from "./components/ui/Footer/page";
 import { Supabase } from "./supabase/supabaseClient";
 
 const geistSans = Geist({
