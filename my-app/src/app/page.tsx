@@ -10,7 +10,6 @@ import ProductList from './components/ui/Product/ProductList';
 interface Filters {
   categories: number[];
   labels: number[];
-  priceRange: [number, number];
 }
 
 export default function Home() {
@@ -18,8 +17,7 @@ export default function Home() {
   const [sortBy, setSortBy] = useState('pertinence');
   const [filters, setFilters] = useState<Filters>({
     categories: [],
-    labels: [],
-    priceRange: [0, 600]
+    labels: []
   });
 
   useEffect(() => {
@@ -40,17 +38,11 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="">
       <FilterBar count={count} onSortChange={handleSortChange} />
-
-      <div className="flex">
-        {/* Sidebar avec filtres */}
+      <div className='flex'>
         <Sidebar onFiltersChange={handleFiltersChange} />
-
-        {/* Zone principale avec la liste des produits */}
-        <main className="flex-1">
-          <ProductList filters={filters} sortBy={sortBy} />
-        </main>
+        <ProductList filters={filters} sortBy={sortBy} />
       </div>
     </div>
   );

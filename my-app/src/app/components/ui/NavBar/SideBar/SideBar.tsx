@@ -127,7 +127,7 @@ export default function Sidebar({ onFiltersChange }: SidebarProps) {
     };
 
     return (
-        <div className="w-72 bg-white h-screen p-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 pr-2">
+        <div className="w-[297px] bg-white h-screen p-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 pr-2">
             <Filters
                 activeFilters={activeFilters}
                 onRemoveFilter={removeFilter}
