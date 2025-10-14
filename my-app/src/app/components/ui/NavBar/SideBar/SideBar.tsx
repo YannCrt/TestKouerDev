@@ -7,7 +7,7 @@ import Filters from "./Filters";
 import Category from "./Category";
 import Label from "./Label";
 
-type Category = {
+type CategoryType = {
     id_Category: number;
     name_Category: string;
     product_count?: number;
@@ -27,9 +27,10 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ onFiltersChange }: SidebarProps) {
-    const [categories, setCategories] = useState<Category[]>([]);
+    const [categories, setCategories] = useState<CategoryType[]>([]);
     const [labels, setLabels] = useState<Label[]>([]);
     const [openCategories, setOpenCategories] = useState(true);
+    const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
     const [openLabels, setOpenLabels] = useState(true);
     const [loadingCat, setLoadingCat] = useState(true);
     const [loadingLabel, setLoadingLabel] = useState(true);
@@ -104,14 +105,34 @@ export default function Sidebar({ onFiltersChange }: SidebarProps) {
             .map((l) => l.id_label);
 
         onFiltersChange({
-            categories: [],
+            categories: selectedCategories, // ✅ maintenant relié
             labels: selectedLabelIds,
         });
-    }, [activeFilters, labels]);
+    }, [activeFilters, labels, selectedCategories]);
+
+    useEffect(() => {
+        const selectedLabelIds = labels
+            .filter((l) => activeFilters.includes(l.name_label))
+            .map((l) => l.id_label);
+
+        onFiltersChange({
+            categories: selectedCategories, // ✅ maintenant relié
+            labels: selectedLabelIds,
+        });
+    }, [activeFilters, labels, selectedCategories]);
+
 
     const handleLabelToggle = (label: Label, checked: boolean) => {
         setActiveFilters((prev) =>
             checked ? [...prev, label.name_label] : prev.filter((f) => f !== label.name_label)
+        );
+    };
+
+    const handleCategorySelect = (cat: CategoryType) => {
+        setSelectedCategories((prev) =>
+            prev.includes(cat.id_Category)
+                ? prev.filter((id) => id !== cat.id_Category)
+                : [...prev, cat.id_Category]
         );
     };
 
@@ -140,7 +161,10 @@ export default function Sidebar({ onFiltersChange }: SidebarProps) {
                 loading={loadingCat}
                 open={openCategories}
                 onToggle={() => setOpenCategories(!openCategories)}
+                onCategorySelect={handleCategorySelect} // ✅
+                activeCategoryIds={selectedCategories} // ✅
             />
+
 
             <Label
                 labels={labels}

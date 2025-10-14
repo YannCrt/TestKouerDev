@@ -1,20 +1,27 @@
-// C:\MesProjets\TestKouerDev\my-app\src\app\components\ui\NavBar\SideBar\Category.tsx
-'use client';
-
-type Category = {
+type CategoryType = {
     id_Category: number;
     name_Category: string;
     product_count?: number;
 };
 
 interface CategoryProps {
-    categories: Category[];
+    categories: CategoryType[];
     loading: boolean;
     open: boolean;
     onToggle: () => void;
+    onCategorySelect: (category: CategoryType) => void; // ✅ modifié ici aussi
+    activeCategoryIds: number[];
 }
 
-export default function Category({ categories, loading, open, onToggle }: CategoryProps) {
+
+export default function Category({
+    categories,
+    loading,
+    open,
+    onToggle,
+    onCategorySelect,
+    activeCategoryIds
+}: CategoryProps) {
     return (
         <>
             <div
@@ -42,8 +49,12 @@ export default function Category({ categories, loading, open, onToggle }: Catego
                     ) : categories.length > 0 ? (
                         categories.map((cat) => (
                             <li
-                                key={cat.id_Category ?? cat.name_Category}
-                                className="text-gray hover:text-gray-600 cursor-pointer"
+                                key={cat.id_Category}
+                                onClick={() => onCategorySelect(cat)} // ✅ clic pour filtrer
+                                className={`text-gray hover:text-gray-600 cursor-pointer ${activeCategoryIds.includes(cat.id_Category)
+                                    ? "font-semibold text-green" // ✅ active visuellement
+                                    : ""
+                                    }`}
                             >
                                 <div className="flex items-center justify-between w-full">
                                     <p className="truncate">{cat.name_Category}</p>
