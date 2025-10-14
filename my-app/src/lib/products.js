@@ -1,5 +1,5 @@
 // src/lib/products.js
-import { Supabase } from "../app/supabase/supabaseClient";
+import { Supabase } from "./supabase/supabaseClient";
 
 export async function getProductCount() {
   const { count, error } = await Supabase.from("Product").select("*", {

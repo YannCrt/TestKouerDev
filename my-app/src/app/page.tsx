@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { getProductCount } from "../lib/products";
 import FilterBar from "./components/ui/NavBar/FilterBar";
-import Sidebar from './components/ui/NavBar/SideBar';
+import Sidebar from './components/ui/NavBar/SideBar/SideBar';
+import ProductCard from './components/ui/Product/ProductCard';
 
 export default function Home() {
   const [count, setCount] = useState(0);

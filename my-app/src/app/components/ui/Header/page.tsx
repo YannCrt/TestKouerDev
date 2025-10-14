@@ -12,8 +12,7 @@ export default function Header() {
                     className="object-cover"
                     priority
                 />
-
-                <div className="absolute inset-0 bg-black/40"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-black/0"></div>
             </div>
 
 
@@ -25,7 +24,7 @@ export default function Header() {
                         alt="Home"
                         width={20}
                         height={20}
-                        className="rounded-[30px]"
+                        className="rounded-[30px] "
                     /></a>
                     <a href="/">
                         <Image

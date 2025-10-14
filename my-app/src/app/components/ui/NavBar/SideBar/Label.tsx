@@ -1,0 +1,103 @@
+import React from "react";
+
+export type LabelType = {
+    id_label: number;
+    name_label: string;
+    product_count?: number;
+};
+
+interface LabelProps {
+    labels: LabelType[];
+    loading: boolean;
+    open: boolean;
+    toggleOpen: () => void;
+    activeFilters: string[];
+    handleLabelToggle: (label: LabelType, checked: boolean) => void;
+}
+
+const Label: React.FC<LabelProps> = ({
+    labels,
+    loading,
+    open,
+    toggleOpen,
+    activeFilters,
+    handleLabelToggle,
+}) => {
+    const totalSelectedProducts = labels
+        .filter((l) => activeFilters.includes(l.name_label))
+        .reduce((sum, l) => sum + (l.product_count || 0), 0);
+
+    return (
+        <div className="mt-6">
+            <div className="flex items-center justify-between cursor-pointer" onClick={toggleOpen}>
+                <div className="flex items-center gap-2">
+                    {totalSelectedProducts > 9 && (
+                        <div className="bg-gray-400 text-white text-xs px-2 py-[2px] rounded-full">+9</div>
+                    )}
+                    <p className="font-poppins text-[20px] text-green font-semibold">Labels</p>
+                </div>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    className={`transition-transform duration-200 ${open ? "rotate-180" : "rotate-0"}`}
+                >
+                    <path d="M1 10H19" stroke="#858585" strokeWidth="2" strokeLinecap="round"></path>
+                </svg>
+            </div>
+            <p className="border-b-1 border-gray pt-2" />
+            {open && (
+                <ul className="ml-4 mt-6 space-y-2">
+                    {loading ? (
+                        <li>Chargement...</li>
+                    ) : labels.length > 0 ? (
+                        labels.map((label) => (
+                            <li key={label.id_label} className="text-gray hover:text-gray-600">
+                                <label
+                                    htmlFor={`label-${label.id_label}`}
+                                    className="flex items-center justify-between cursor-pointer select-none w-full"
+                                >
+                                    <div className="flex items-center gap-2 overflow-hidden">
+                                        <input
+                                            type="checkbox"
+                                            id={`label-${label.id_label}`}
+                                            onChange={(e) => handleLabelToggle(label, e.target.checked)}
+                                            className="
+                        appearance-none
+                        w-[16px] h-[16px]
+                        border border-gray-400 rounded-sm
+                        bg-white
+                        checked:bg-white
+                        checked:border-green
+                        relative
+                        after:content-['']
+                        after:absolute
+                        after:top-[2px] after:left-[2px]
+                        after:w-[10px] after:h-[10px]
+                        after:bg-green
+                        after:rounded-[2px]
+                        after:opacity-0
+                        checked:after:opacity-100
+                        flex-shrink-0
+                      "
+                                        />
+                                        <p className="truncate">{label.name_label}</p>
+                                    </div>
+                                    <span className="pl-3 text-gray text-sm flex-shrink-0 w-[35px] h-6 flex items-center justify-center">
+                                        {label.product_count}
+                                    </span>
+                                </label>
+                            </li>
+                        ))
+                    ) : (
+                        <li>Aucun label</li>
+                    )}
+                </ul>
+            )}
+        </div>
+    );
+};
+
+export default Label;
