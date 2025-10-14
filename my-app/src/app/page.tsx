@@ -1,17 +1,29 @@
-import Image from "next/image";
-import { getProductCount } from "../lib/products";
+'use client';
 
-export default async function Home() {
-  const count = await getProductCount();
+import { useState, useEffect } from 'react';
+import { getProductCount } from "../lib/products";
+import FilterBar from "./components/ui/NavBar/FilterBar";
+import Sidebar from './components/ui/NavBar/SideBar';
+
+export default function Home() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    async function fetchCount() {
+      const total = await getProductCount();
+      setCount(total);
+    }
+    fetchCount();
+  }, []);
+
+  const handleSortChange = (sort: string) => {
+    console.log('Tri sélectionné:', sort);
+  };
 
   return (
-    <div className="font-sans grid ...">
-      <div className="flex gap-1">
-        <p className="text-lg font-medium">
-          {count.toLocaleString()}
-        </p>
-        <p className="text-lg color-[#858585]">{count > 1 ? "résultats" : "résultat"}</p>
-      </div>
-    </div >
+    <div className="">
+      <FilterBar count={count} onSortChange={handleSortChange} />
+      <Sidebar />
+    </div>
   );
 }

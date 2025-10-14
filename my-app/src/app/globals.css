@@ -12,15 +12,17 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --color-grey-100: #858585;
-  --color-black-100: #505050;
-  --color-green-100: #4ea04c;
-  --color-green-200: #4ea04c1a;
+
+  /* Tes couleurs custom ici 👇 */
+  --color-gray: #858585;
+  --color-black: #505050;
+  --color-green: #4ea04c;
+  --color-lightgreen: #4ea04c1a;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #e3e3e3;
+    --background: #ffffff;
     --foreground: #000000;
   }
 }
