@@ -28,25 +28,27 @@ export default function Label({ labels, loading, open, activeFilters, onToggle, 
                 onClick={onToggle}
             >
                 <div className="flex items-center gap-2">
+
+                    <p className="font-poppins text-[20px] text-green font-semibold">Labels</p>
+                </div>
+                <div className="flex items-center gap-2">
                     {/* 🔹 Badge +9 */}
                     {totalSelectedProducts > 9 && (
-                        <div className="bg-gray-400 text-white text-xs px-2 py-[2px] rounded-full">
+                        <div className="bg-gray-400 text-white text-xs py-0.5 px-0.5 mr-3 rounded-4xl">
                             +9
                         </div>
                     )}
-                    <p className="font-poppins text-[20px] text-green font-semibold">Labels</p>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        className={`transition-transform duration-200 ${open ? "rotate-180" : "rotate-0"}`}
+                    >
+                        <path d="M1 10H19" stroke="#858585" strokeWidth="2" strokeLinecap="round"></path>
+                    </svg>
                 </div>
-
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
-                    className={`transition-transform duration-200 ${open ? "rotate-180" : "rotate-0"}`}
-                >
-                    <path d="M1 10H19" stroke="#858585" strokeWidth="2" strokeLinecap="round"></path>
-                </svg>
             </div>
             <p className="border-b-1 border-gray pt-2" />
 

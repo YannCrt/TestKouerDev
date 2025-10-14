@@ -29,9 +29,28 @@ export default function Home() {
   }, []);
 
   const handleSortChange = (sort: string) => {
-    console.log('Tri sélectionné:', sort);
-    setSortBy(sort);
+    console.log("Tri sélectionné:", sort);
+
+    let sortValue = "pertinence";
+
+    switch (sort) {
+      case "Prix croissant":
+        sortValue = "price-asc";
+        break;
+      case "Prix décroissant":
+        sortValue = "price-desc";
+        break;
+      case "Nouveauté":
+        sortValue = "newest"; // si tu veux gérer ça par created_at desc
+        break;
+      case "Pertinence":
+      default:
+        sortValue = "pertinence";
+    }
+
+    setSortBy(sortValue);
   };
+
 
   const handleFiltersChange = (newFilters: Filters) => {
     setFilters(newFilters);

@@ -67,7 +67,7 @@ export default function FilterBar({ count, onSortChange }: FilterBarProps) {
                             <button
                                 key={option}
                                 onClick={() => handleSelect(option)}
-                                className={`w-full text-left px-3 py-1.5 text-base transition-colors ${selectedSort === option
+                                className={`w-full text-left px-3 py-1 text-base transition-colors ${selectedSort === option
                                     ? 'bg-green text-white'
                                     : 'hover:bg-gray-50'
                                     }`}

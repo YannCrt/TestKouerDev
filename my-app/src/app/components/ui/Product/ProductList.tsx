@@ -63,17 +63,17 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
 
             // Appliquer le tri
             switch (sortBy) {
-                case 'price-asc':
-                    query = query.order('price', { ascending: true });
+                case "price-asc":
+                    query = query.order("price", { ascending: true });
                     break;
-                case 'price-desc':
-                    query = query.order('price', { ascending: false });
+                case "price-desc":
+                    query = query.order("price", { ascending: false });
                     break;
-                case 'name':
-                    query = query.order('name_Product', { ascending: true });
+                case "newest":
+                    query = query.order("created_at", { ascending: false });
                     break;
                 default:
-                    query = query.order('created_at', { ascending: false });
+                    query = query.order("created_at", { ascending: false }); // Pertinence = fallback
             }
 
             const { data, error: fetchError } = await query;

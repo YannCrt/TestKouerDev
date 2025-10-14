@@ -31,7 +31,16 @@ export default function ProductCard({
             );
             return config ? config[1] : null;
         })
-        .filter((label): label is { display: string; image?: string; variant?: 'default' | 'season' } => label !== null);
+        .filter((label): label is { display: string; image?: string; variant?: 'default' | 'season' } => label !== null)
+        .sort((a, b) => {
+            const getPriority = (label: { display: string; image?: string; variant?: 'default' | 'season' }) => {
+                if (label.variant === 'season') return 0;              // Produit de saison en premier
+                if (label.image && label.image.includes('bio')) return 1; // Bio en second
+                return 2;                                               // STG dernier
+            };
+            return getPriority(a) - getPriority(b);
+        });
+
 
     return (
         <div className="w-[292.8px] min-w-[280px] h-[348px] bg-white rounded-[10px] overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col group cursor-pointer relative">
@@ -51,9 +60,9 @@ export default function ProductCard({
                         {processedLabels.map((label, index) => (
                             <div
                                 key={index}
-                                className={`rounded-[20px] shadow-md flex items-center ${label.variant === 'season'
-                                    ? 'bg-white p-1 pr-1 gap-1'
-                                    : 'bg-white p-0.5 pr-1 gap-1'
+                                className={`rounded-[20px] shadow-md flex items-center ml-2 mt-1.5 ${label.variant === 'season'
+                                    ? 'bg-white p-1.5 px-3 gap-1'
+                                    : 'bg-white p-1 pr-2 gap-1'
                                     }`}
                             >
                                 {label.image && (
