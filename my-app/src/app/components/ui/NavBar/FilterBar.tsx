@@ -45,7 +45,7 @@ export default function FilterBar({ count, onSortChange }: FilterBarProps) {
                     <span className="text-lg">Trier par</span>
                     <span className="font-medium text-gray text-lg">{selectedSort}</span>
                     <svg
-                        className={`w-4 h-4 text-gray transition-transform duration-200 ${isOpen ? 'rotate-180' : ''
+                        className={`w-[22.5px] h-[22.5px] text-gray-800 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''
                             }`}
                         fill="none"
                         stroke="currentColor"
@@ -62,12 +62,12 @@ export default function FilterBar({ count, onSortChange }: FilterBarProps) {
 
                 {/* Menu dropdown */}
                 {isOpen && (
-                    <div className="absolute right-0 mt-2 w-52 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10">
+                    <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden z-10">
                         {sortOptions.map((option) => (
                             <button
                                 key={option}
                                 onClick={() => handleSelect(option)}
-                                className={`w-full text-left px-4 py-3 text-base transition-colors ${selectedSort === option
+                                className={`w-full text-left px-3 py-1.5 text-base transition-colors ${selectedSort === option
                                     ? 'bg-green text-white'
                                     : 'hover:bg-gray-50'
                                     }`}
