@@ -43,7 +43,7 @@ export default function Category({ categories, loading, open, onToggle }: Catego
                         categories.map((cat) => (
                             <li
                                 key={cat.id_Category ?? cat.name_Category}
-                                className="text-gray hover:text-gray-600"
+                                className="text-gray hover:text-gray-600 cursor-pointer"
                             >
                                 <div className="flex items-center justify-between w-full">
                                     <p className="truncate">{cat.name_Category}</p>

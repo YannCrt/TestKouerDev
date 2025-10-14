@@ -33,7 +33,8 @@ export default function Sidebar({ onFiltersChange }: SidebarProps) {
     const [openLabels, setOpenLabels] = useState(true);
     const [loadingCat, setLoadingCat] = useState(true);
     const [loadingLabel, setLoadingLabel] = useState(true);
-    const [activeFilters, setActiveFilters] = useState<string[]>([]);
+    const [activeFilters, setActiveFilters] = useState<string[]>(["0€ - 600€"]);
+
 
     useEffect(() => {
         async function fetchCategories() {
@@ -127,7 +128,7 @@ export default function Sidebar({ onFiltersChange }: SidebarProps) {
     };
 
     return (
-        <div className="w-[297px] bg-white h-screen p-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 pr-2">
+        <div className="w-[297px] min-w-[250px] bg-white h-screen p-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 pr-2">
             <Filters
                 activeFilters={activeFilters}
                 onRemoveFilter={removeFilter}

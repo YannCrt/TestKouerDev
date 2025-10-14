@@ -68,25 +68,26 @@ export default function Label({ labels, loading, open, activeFilters, onToggle, 
                                         <input
                                             type="checkbox"
                                             id={`label-${label.id_label}`}
+                                            checked={activeFilters.includes(label.name_label)} // ✅ Synchronise avec les filtres actifs
                                             onChange={(e) => onLabelToggle(label, e.target.checked)}
                                             className="
-                        appearance-none
-                        w-[16px] h-[16px]
-                        border border-gray-400 rounded-sm
-                        bg-white
-                        checked:bg-white
-                        checked:border-green
-                        relative
-                        after:content-['']
-                        after:absolute
-                        after:top-[2px] after:left-[2px]
-                        after:w-[10px] after:h-[10px]
-                        after:bg-green
-                        after:rounded-[2px]
-                        after:opacity-0
-                        checked:after:opacity-100
-                        flex-shrink-0
-                      "
+        appearance-none
+        w-[16px] h-[16px]
+        border border-gray-400 rounded-sm
+        bg-white
+        checked:bg-white
+        checked:border-green
+        relative
+        after:content-['']
+        after:absolute
+        after:top-[2px] after:left-[2px]
+        after:w-[10px] after:h-[10px]
+        after:bg-green
+        after:rounded-[2px]
+        after:opacity-0
+        checked:after:opacity-100
+        flex-shrink-0
+    "
                                         />
                                         <p className="truncate">{label.name_label}</p>
                                     </div>

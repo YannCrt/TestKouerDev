@@ -20,7 +20,7 @@ export default function Filters({ activeFilters, onRemoveFilter, onClearAll }: F
                         key={filter}
                         className="flex items-center gap-1 bg-white text-gray rounded-[60px] text-[14px]"
                     >
-                        <button onClick={() => onRemoveFilter(filter)}>
+                        <button onClick={() => onRemoveFilter(filter)} className="cursor-pointer">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="14"

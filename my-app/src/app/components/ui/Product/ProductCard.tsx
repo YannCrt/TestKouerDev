@@ -13,7 +13,6 @@ type ProductCardProps = {
 export default function ProductCard({
     name,
     Img_Product,
-    description,
     labels
 }: ProductCardProps) {
     // Configuration des labels avec mapping et images optionnelles
