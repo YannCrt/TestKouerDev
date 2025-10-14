@@ -1,22 +1,26 @@
-import React from "react";
+// C:\MesProjets\TestKouerDev\my-app\src\app\components\ui\NavBar\SideBar\Category.tsx
+'use client';
 
-export type CategoryType = {
+type Category = {
     id_Category: number;
     name_Category: string;
     product_count?: number;
 };
 
 interface CategoryProps {
-    categories: CategoryType[];
+    categories: Category[];
     loading: boolean;
     open: boolean;
-    toggleOpen: () => void;
+    onToggle: () => void;
 }
 
-const Category: React.FC<CategoryProps> = ({ categories, loading, open, toggleOpen }) => {
+export default function Category({ categories, loading, open, onToggle }: CategoryProps) {
     return (
-        <div>
-            <div className="flex items-center justify-between cursor-pointer" onClick={toggleOpen}>
+        <>
+            <div
+                className="flex items-center justify-between cursor-pointer"
+                onClick={onToggle}
+            >
                 <p className="font-poppins text-[20px] text-green font-semibold">Catégories</p>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -30,13 +34,17 @@ const Category: React.FC<CategoryProps> = ({ categories, loading, open, toggleOp
                 </svg>
             </div>
             <p className="border-b-1 border-gray pt-2" />
+
             {open && (
                 <ul className="ml-4 mt-6 space-y-2">
                     {loading ? (
                         <li>Chargement...</li>
                     ) : categories.length > 0 ? (
                         categories.map((cat) => (
-                            <li key={cat.id_Category} className="text-gray hover:text-gray-600">
+                            <li
+                                key={cat.id_Category ?? cat.name_Category}
+                                className="text-gray hover:text-gray-600"
+                            >
                                 <div className="flex items-center justify-between w-full">
                                     <p className="truncate">{cat.name_Category}</p>
                                     <span className="ml-2 text-gray text-sm flex-shrink-0 w-[35px] h-6 flex items-center justify-center">
@@ -50,8 +58,6 @@ const Category: React.FC<CategoryProps> = ({ categories, loading, open, toggleOp
                     )}
                 </ul>
             )}
-        </div>
+        </>
     );
-};
-
-export default Category;
+}

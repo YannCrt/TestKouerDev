@@ -1,41 +1,42 @@
-import React from "react";
+// C:\MesProjets\TestKouerDev\my-app\src\app\components\ui\NavBar\SideBar\Label.tsx
+'use client';
 
-export type LabelType = {
+type Label = {
     id_label: number;
     name_label: string;
     product_count?: number;
 };
 
 interface LabelProps {
-    labels: LabelType[];
+    labels: Label[];
     loading: boolean;
     open: boolean;
-    toggleOpen: () => void;
     activeFilters: string[];
-    handleLabelToggle: (label: LabelType, checked: boolean) => void;
+    onToggle: () => void;
+    onLabelToggle: (label: Label, checked: boolean) => void;
 }
 
-const Label: React.FC<LabelProps> = ({
-    labels,
-    loading,
-    open,
-    toggleOpen,
-    activeFilters,
-    handleLabelToggle,
-}) => {
+export default function Label({ labels, loading, open, activeFilters, onToggle, onLabelToggle }: LabelProps) {
     const totalSelectedProducts = labels
         .filter((l) => activeFilters.includes(l.name_label))
         .reduce((sum, l) => sum + (l.product_count || 0), 0);
 
     return (
-        <div className="mt-6">
-            <div className="flex items-center justify-between cursor-pointer" onClick={toggleOpen}>
+        <>
+            <div
+                className="flex items-center justify-between cursor-pointer mt-6"
+                onClick={onToggle}
+            >
                 <div className="flex items-center gap-2">
+                    {/* 🔹 Badge +9 */}
                     {totalSelectedProducts > 9 && (
-                        <div className="bg-gray-400 text-white text-xs px-2 py-[2px] rounded-full">+9</div>
+                        <div className="bg-gray-400 text-white text-xs px-2 py-[2px] rounded-full">
+                            +9
+                        </div>
                     )}
                     <p className="font-poppins text-[20px] text-green font-semibold">Labels</p>
                 </div>
+
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
@@ -48,13 +49,17 @@ const Label: React.FC<LabelProps> = ({
                 </svg>
             </div>
             <p className="border-b-1 border-gray pt-2" />
+
             {open && (
                 <ul className="ml-4 mt-6 space-y-2">
                     {loading ? (
                         <li>Chargement...</li>
                     ) : labels.length > 0 ? (
                         labels.map((label) => (
-                            <li key={label.id_label} className="text-gray hover:text-gray-600">
+                            <li
+                                key={label.id_label ?? label.name_label}
+                                className="text-gray hover:text-gray-600"
+                            >
                                 <label
                                     htmlFor={`label-${label.id_label}`}
                                     className="flex items-center justify-between cursor-pointer select-none w-full"
@@ -63,7 +68,7 @@ const Label: React.FC<LabelProps> = ({
                                         <input
                                             type="checkbox"
                                             id={`label-${label.id_label}`}
-                                            onChange={(e) => handleLabelToggle(label, e.target.checked)}
+                                            onChange={(e) => onLabelToggle(label, e.target.checked)}
                                             className="
                         appearance-none
                         w-[16px] h-[16px]
@@ -96,8 +101,6 @@ const Label: React.FC<LabelProps> = ({
                     )}
                 </ul>
             )}
-        </div>
+        </>
     );
-};
-
-export default Label;
+}

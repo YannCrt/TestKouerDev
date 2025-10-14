@@ -1,22 +1,26 @@
-import React from "react";
+// C:\MesProjets\TestKouerDev\my-app\src\app\components\ui\NavBar\SideBar\Filters.tsx
+'use client';
 
 interface FiltersProps {
     activeFilters: string[];
-    clearFilters: () => void;
+    onRemoveFilter: (filter: string) => void;
+    onClearAll: () => void;
 }
 
-const Filters: React.FC<FiltersProps> = ({ activeFilters, clearFilters }) => {
+export default function Filters({ activeFilters, onRemoveFilter, onClearAll }: FiltersProps) {
     return (
         <div className="flex-col mb-4 pt-3.5">
             <p className="font-poppins text-[20px] text-green font-semibold">Filtres</p>
             <p className="border-b-1 border-gray pt-1" />
+
+            {/* 🔹 Liste des filtres actifs */}
             <div className="flex flex-wrap gap-2 mt-4">
                 {activeFilters.map((filter) => (
                     <div
                         key={filter}
                         className="flex items-center gap-1 bg-white text-gray rounded-[60px] text-[14px]"
                     >
-                        <button onClick={() => clearFilters()}>
+                        <button onClick={() => onRemoveFilter(filter)}>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="14"
@@ -32,14 +36,13 @@ const Filters: React.FC<FiltersProps> = ({ activeFilters, clearFilters }) => {
                     </div>
                 ))}
             </div>
+
             <button
-                onClick={clearFilters}
+                onClick={onClearAll}
                 className="bg-[#4EA04C1A] text-green rounded-[60px] h-[34px] px-[20px] text-[16px] font-normal mb-[30px] mt-5 cursor-pointer"
             >
                 Effacer tous les filtres
             </button>
         </div>
     );
-};
-
-export default Filters;
+}
