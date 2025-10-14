@@ -150,6 +150,7 @@ export default function Sidebar() {
                 <p className="border-b-1 border-gray pt-1" />
 
                 {/* 🔹 Liste des filtres actifs */}
+                {/* 🔹 Liste des filtres actifs */}
                 <div className="flex flex-wrap gap-2 mt-4">
                     {activeFilters.map((filter) => (
                         <div
@@ -157,7 +158,16 @@ export default function Sidebar() {
                             className="flex items-center gap-1 bg-white text-gray rounded-[60px] text-[14px]"
                         >
                             <button
-                                onClick={() => setActiveFilters((prev) => prev.filter((f) => f !== filter))}
+                                onClick={() => {
+                                    // Retirer le filtre de activeFilters
+                                    setActiveFilters((prev) => prev.filter((f) => f !== filter));
+
+                                    // Décoche la checkbox correspondante
+                                    const checkbox = document.querySelector<HTMLInputElement>(
+                                        `input[type="checkbox"][data-filter="${filter}"]`
+                                    );
+                                    if (checkbox) checkbox.checked = false;
+                                }}
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -166,8 +176,18 @@ export default function Sidebar() {
                                     viewBox="0 0 14 14"
                                     fill="none"
                                 >
-                                    <path d="M3.46875 10.5356L10.5398 3.46458" stroke="#4EA04C" strokeWidth="2" strokeLinecap="round"></path>
-                                    <path d="M10.5391 10.5356L3.46799 3.46458" stroke="#4EA04C" strokeWidth="2" strokeLinecap="round"></path>
+                                    <path
+                                        d="M3.46875 10.5356L10.5398 3.46458"
+                                        stroke="#4EA04C"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                    ></path>
+                                    <path
+                                        d="M10.5391 10.5356L3.46799 3.46458"
+                                        stroke="#4EA04C"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                    ></path>
                                 </svg>
                             </button>
                             <span>{filter}</span>
@@ -175,12 +195,16 @@ export default function Sidebar() {
                     ))}
                 </div>
 
-                <button
-                    onClick={clearFilters}
-                    className="bg-[#4EA04C1A] text-green rounded-[60px] h-[34px] px-[20px] text-[16px] font-normal mb-[30px] mt-5 cursor-pointer"
-                >
-                    Effacer tous les filtres
-                </button>
+
+                {/* 🔹 Effacer tous les filtres */}
+                {activeFilters.length > 0 && (
+                    <button
+                        onClick={clearFilters}
+                        className="bg-[#4EA04C1A] text-green rounded-[60px] h-[34px] px-[20px] text-[16px] font-normal mb-[30px] mt-5 cursor-pointer"
+                    >
+                        Effacer tous les filtres
+                    </button>
+                )}
             </div>
 
             {/* --- Catégories --- */}
@@ -274,6 +298,7 @@ export default function Sidebar() {
                                         <input
                                             type="checkbox"
                                             id={`label-${label.id_label}`}
+                                            data-filter={label.name_label}  // <- ici
                                             onChange={(e) => handleLabelToggle(label, e.target.checked)}
                                             className="
                   appearance-none
