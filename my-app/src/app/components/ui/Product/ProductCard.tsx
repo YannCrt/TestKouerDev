@@ -1,29 +1,20 @@
 import React from "react";
 import Image from "next/image";
+import { Product } from "../../../../app/type/type";
 
-type ProductCardProps = {
-    name: string;
-    Img_Product: string;
-    price?: number;
-    description?: string;
-    category?: string;
-    labels?: string[];
-};
 
 export default function ProductCard({
-    name,
+    name_Product,
     Img_Product,
-    labels
-}: ProductCardProps) {
-    // Configuration des labels avec mapping et images optionnelles
+    Labels
+}: Product) {
     const labelConfig: Record<string, { display: string; image?: string; variant?: 'default' | 'season' }> = {
         'bio': { display: 'BIO', image: '/images/labels/bio.png', variant: 'default' },
         'spécialité traditionnelle garantie': { display: 'STG', image: '/images/labels/stg.png', variant: 'default' },
         'produit de saison': { display: 'Produit de saison', variant: 'season' }
     };
 
-    // Filtrer et mapper les labels
-    const processedLabels = labels
+    const processedLabels = Labels
         ?.map(label => {
             const labelLower = label.toLowerCase();
             const config = Object.entries(labelConfig).find(([key]) =>
@@ -47,7 +38,7 @@ export default function ProductCard({
             <div className="w-full h-[180px] min-[450px]:h-[210px] min-[600px]:h-[260px] relative overflow-hidden bg-gray-100 flex-shrink-0">
                 <Image
                     src={Img_Product}
-                    alt={name}
+                    alt={name_Product}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-200"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 292px"
@@ -60,8 +51,8 @@ export default function ProductCard({
                             <div
                                 key={index}
                                 className={`rounded-[20px] shadow-md flex items-center ml-2 mt-1 ${label.variant === 'season'
-                                        ? 'bg-white p-1.5 px-3 gap-1'
-                                        : 'bg-white p-1 pr-2 gap-1'
+                                    ? 'bg-white p-1.5 px-3 gap-1'
+                                    : 'bg-white p-1 pr-2 gap-1'
                                     }`}
                             >
                                 {label.image && (
@@ -75,8 +66,8 @@ export default function ProductCard({
                                     </div>
                                 )}
                                 <span className={`text-xs tracking-wide ${label.variant === 'season'
-                                        ? 'text-green font-semibold'
-                                        : 'text-lightblack'
+                                    ? 'text-green font-semibold'
+                                    : 'text-lightblack'
                                     }`}>
                                     {label.display}
                                 </span>
@@ -89,7 +80,7 @@ export default function ProductCard({
             {/* Informations du produit - Prend l'espace restant */}
             <div className="w-full flex-1 flex flex-col justify-center px-4 py-2">
                 <h3 className="text-lightblack font-semibold text-sm leading-tight line-clamp-2 group-hover:text-green-600 transition-colors">
-                    {name}
+                    {name_Product}
                 </h3>
             </div>
         </div>

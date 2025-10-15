@@ -11,12 +11,12 @@ export type Label = {
 };
 
 export type Product = {
-  Id_Product: number;
+  Id_Product?: number;
   name_Product: string;
   Img_Product: string;
   price?: number;
   description?: string;
-  Category?: Category;
-  Labels?: Label[];
+  Category?: string;
+  Labels?: string[];
   created_at?: string;
 };

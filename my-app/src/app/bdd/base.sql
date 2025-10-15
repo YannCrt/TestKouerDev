@@ -22,11 +22,11 @@ INSERT INTO "Label" (id_Label, name_Label, created_at) VALUES
 
 -- 3. Product
 INSERT INTO "Product" (id_Product, name_Product, img_Product, price, description, id_Category, created_at) VALUES
-(1, 'Bourriche d''huîtres "Authentique" de Paimpol', '/images/products/bourriche-huitres.jpg', 24.90, 'Huîtres fraîches de Paimpol', 3, '2024-01-01 10:00:00'),
-(2, 'Confit de vin rouge Bio', '/images/products/confit-vin-bio.jpg', 6.90, 'Délicieux confit au vin rouge biologique', 4, '2024-01-01 10:00:00'),
-(3, 'Sorbet Pomme Verte 0.5L', '/images/products/sorbet-pomme.jpg', 4.50, 'Sorbet rafraîchissant à la pomme verte', 6, '2024-01-01 10:00:00'),
-(4, 'Confit de vin rouge Bio', '/images/products/confit-vin-saison.jpg', 6.90, 'Confit de vin rouge produit de saison', 4, '2024-01-01 10:00:00'),
-(5, 'Confit de vin rouge Bio', '/images/products/confit-vin-miel.jpg', 7.50, 'Confit de vin rouge au miel', 4, '2024-01-01 10:00:00');
+(1, 'Bourriche d''huîtres "Authentique" de Paimpol', '/images/products/product1.png', 24.90, 'Huîtres fraîches de Paimpol', 3, '2024-01-01 10:00:00'),
+(2, 'Confit de vin rouge Bio', '/images/products/product2.png', 6.90, 'Délicieux confit au vin rouge biologique', 4, '2024-01-01 10:00:00'),
+(3, 'Sorbet Pomme Verte 0.5L', '/images/products/product3.png', 4.50, 'Sorbet rafraîchissant à la pomme verte', 6, '2024-01-01 10:00:00'),
+(4, 'Confit de vin rouge Bio', '/images/products/product4.png', 6.90, 'Confit de vin rouge produit de saison', 4, '2024-01-01 10:00:00'),
+(5, 'Confit de vin rouge Bio', '/images/products/product5.png', 7.50, 'Confit de vin rouge au miel', 4, '2024-01-01 10:00:00');
 
 -- 4. Product_Label
 INSERT INTO "Product_Label" (id, id_Product, id_Label, created_at) VALUES

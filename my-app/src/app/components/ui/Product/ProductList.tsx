@@ -211,12 +211,12 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
                 {currentProducts.map((product) => (
                     <ProductCard
                         key={product.id}
-                        name={product.name}
+                        name_Product={product.name}
                         Img_Product={product.Img_Product}
                         price={product.price}
                         description={product.description}
-                        category={product.category}
-                        labels={product.labels}
+                        Category={product.category}
+                        Labels={product.labels}
                     />
                 ))}
             </div>
