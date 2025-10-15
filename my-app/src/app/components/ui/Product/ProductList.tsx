@@ -192,16 +192,18 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
     }
 
     // Pas de produits
+    // Pas de produits
     if (products.length === 0) {
         return (
-            <div className="max-[1099px]:py-50 max-[450px]:py-20 text-center">
-                <div className="bg-gray-50 rounded-lg p-12 ">
-                    <p className="text-gray-500 text-lg  mb-2">Aucun produit trouvé</p>
+            <div className="flex justify-center items-center w-full min-h-[300px]">
+                <div className="bg-gray-50 rounded-lg p-12 text-center">
+                    <p className="text-gray-500 text-lg mb-2">Aucun produit trouvé</p>
                     <p className="text-gray-400 text-sm">Essayez de modifier vos filtres</p>
                 </div>
             </div>
         );
     }
+
 
     // Affichage des produits avec pagination
     return (

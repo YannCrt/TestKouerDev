@@ -69,7 +69,7 @@ export default function Home() {
         {/* ✅ Sidebar utilise la même fonction */}
         <Sidebar onFiltersChange={handleFiltersChange} />
         {/* ✅ ProductList reçoit les filtres unifiés */}
-        <div className='flex justify-center items-center p-6 w-full '>
+        <div className='flex  p-6 w-full '>
           <ProductList filters={filters} sortBy={sortBy} />
         </div>
       </div>
