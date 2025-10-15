@@ -158,11 +158,11 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
     // État de chargement
     if (loading) {
         return (
-            <div className="flex flex-wrap gap-6 justify-start p-6">
+            <div className="grid grid-cols-2 min-[600px]:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-3 p-3 sm:p-6 justify-items-center">
                 {[...Array(8)].map((_, i) => (
                     <div
                         key={i}
-                        className="w-[292.8px] min-w-[280px] h-[348px] bg-white rounded-[10px] overflow-hidden shadow-sm animate-pulse"
+                        className="w-full max-w-[292.8px] h-[348px] bg-white rounded-[10px] overflow-hidden shadow-sm animate-pulse"
                     >
                         <div className="w-full h-[260px] bg-gray-200" />
                         <div className="w-full h-[88px] flex items-center justify-center p-4">
@@ -206,8 +206,8 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
     // Affichage des produits avec pagination
     return (
         <div className="w-full">
-            {/* Liste des produits */}
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-3 p-6 justify-items-center">
+            {/* Liste des produits - 2 colonnes sur mobile (360-599px), puis auto-fill après 600px */}
+            <div className="grid grid-cols-2 min-[600px]:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-3 p-3 sm:p-6 justify-items-center">
                 {currentProducts.map((product) => (
                     <ProductCard
                         key={product.id}
