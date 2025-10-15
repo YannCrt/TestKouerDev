@@ -105,22 +105,10 @@ export default function Sidebar({ onFiltersChange }: SidebarProps) {
             .map((l) => l.id_label);
 
         onFiltersChange({
-            categories: selectedCategories, // ✅ maintenant relié
+            categories: selectedCategories,
             labels: selectedLabelIds,
         });
     }, [activeFilters, labels, selectedCategories]);
-
-    useEffect(() => {
-        const selectedLabelIds = labels
-            .filter((l) => activeFilters.includes(l.name_label))
-            .map((l) => l.id_label);
-
-        onFiltersChange({
-            categories: selectedCategories, // ✅ maintenant relié
-            labels: selectedLabelIds,
-        });
-    }, [activeFilters, labels, selectedCategories]);
-
 
     const handleLabelToggle = (label: Label, checked: boolean) => {
         setActiveFilters((prev) =>
@@ -149,7 +137,7 @@ export default function Sidebar({ onFiltersChange }: SidebarProps) {
     };
 
     return (
-        <div className="w-[297px] min-w-[25%] bg-white h-screen p-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 pr-2">
+        <div className="hidden min-[1100px]:block w-[22vw] min-w-[220px] max-w-[900px] bg-white h-screen mt-8 p-4 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 pr-2">
             <Filters
                 activeFilters={activeFilters}
                 onRemoveFilter={removeFilter}
@@ -161,10 +149,9 @@ export default function Sidebar({ onFiltersChange }: SidebarProps) {
                 loading={loadingCat}
                 open={openCategories}
                 onToggle={() => setOpenCategories(!openCategories)}
-                onCategorySelect={handleCategorySelect} // ✅
-                activeCategoryIds={selectedCategories} // ✅
+                onCategorySelect={handleCategorySelect}
+                activeCategoryIds={selectedCategories}
             />
-
 
             <Label
                 labels={labels}

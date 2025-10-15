@@ -43,7 +43,7 @@ export default function ProductCard({
 
 
     return (
-        <div className="w-[292.8px] min-w-[280px] h-[348px] bg-white rounded-[10px] overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col group cursor-pointer relative">
+        <div className="w-full max-w-[292.8px] min-w-[240px] h-[348px] bg-white rounded-[10px] overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col group cursor-pointer relative">
             {/* Image avec labels */}
             <div className="w-full h-[260px] relative overflow-hidden bg-gray-100">
                 <Image
@@ -51,7 +51,7 @@ export default function ProductCard({
                     alt={name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-200"
-                    sizes="292px"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 292px"
                 />
 
                 {/* Labels en haut à GAUCHE */}
@@ -60,7 +60,7 @@ export default function ProductCard({
                         {processedLabels.map((label, index) => (
                             <div
                                 key={index}
-                                className={`rounded-[20px] shadow-md flex items-center ml-2 mt-1.5 ${label.variant === 'season'
+                                className={`rounded-[20px] shadow-md flex items-center ml-2 mt-1 ${label.variant === 'season'
                                     ? 'bg-white p-1.5 px-3 gap-1'
                                     : 'bg-white p-1 pr-2 gap-1'
                                     }`}

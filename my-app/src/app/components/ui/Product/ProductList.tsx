@@ -28,9 +28,13 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const PRODUCTS_PER_PAGE = 30; // 6 lignes × 5 colonnes
 
     useEffect(() => {
         fetchProducts();
+        setCurrentPage(1); // Reset à la page 1 quand les filtres changent
     }, [filters, sortBy]);
 
     async function fetchProducts() {
@@ -115,6 +119,42 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
         }
     }
 
+    // Calculs de pagination
+    const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
+    const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
+    const endIndex = startIndex + PRODUCTS_PER_PAGE;
+    const currentProducts = products.slice(startIndex, endIndex);
+
+    // Générer les numéros de pages à afficher
+    const getPageNumbers = () => {
+        const pages = [];
+
+        if (totalPages <= 5) {
+            // Afficher toutes les pages si 5 pages ou moins
+            for (let i = 1; i <= totalPages; i++) {
+                pages.push(i);
+            }
+        } else {
+            // Si plus de 5 pages : 1, 2, 3, ..., dernière
+            if (currentPage <= 3) {
+                pages.push(1, 2, 3, '...', totalPages);
+            } else if (currentPage >= totalPages - 2) {
+                // À la fin : 1, ..., avant-dernière-2, avant-dernière-1, avant-dernière, dernière
+                pages.push(1, '...', totalPages - 2, totalPages - 1, totalPages);
+            } else {
+                // Au milieu : afficher autour de la page actuelle
+                pages.push(1, '...', currentPage, '...', totalPages);
+            }
+        }
+
+        return pages;
+    };
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     // État de chargement
     if (loading) {
         return (
@@ -163,20 +203,77 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
         );
     }
 
-    // Affichage des produits
+    // Affichage des produits avec pagination
     return (
-        <div className="flex flex-wrap gap-6 justify-start p-6">
-            {products.map((product) => (
-                <ProductCard
-                    key={product.id}
-                    name={product.name}
-                    Img_Product={product.Img_Product}
-                    price={product.price}
-                    description={product.description}
-                    category={product.category}
-                    labels={product.labels}
-                />
-            ))}
+        <div className="w-full">
+            {/* Liste des produits */}
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-3 p-6">
+                {currentProducts.map((product) => (
+                    <ProductCard
+                        key={product.id}
+                        name={product.name}
+                        Img_Product={product.Img_Product}
+                        price={product.price}
+                        description={product.description}
+                        category={product.category}
+                        labels={product.labels}
+                    />
+                ))}
+            </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-2 py-8 px-6">
+                    {/* Bouton Précédent */}
+                    <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className={`w-[30px] h-[30px] cursor-pointer text-3xl rounded-[37.5px] flex items-center justify-center border border-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${currentPage === 1
+                            ? 'bg-[#F4F4F4] text-[#D9D9D9]'
+                            : 'bg-[#F4F4F4] text-green hover:bg-gray-50'
+                            }`}
+                        aria-label="Page précédente"
+                    >
+                        ‹
+                    </button>
+
+                    {/* Numéros de pages */}
+                    {getPageNumbers().map((page, index) => (
+                        <div key={index} className="flex flex-col items-center gap-1">
+                            <button
+                                onClick={() => typeof page === 'number' && handlePageChange(page)}
+                                disabled={page === '...'}
+                                className={`min-w-[40px] px-3 py-2 rounded-lg transition-colors ${page === currentPage
+                                    ? 'bg-white text-green'
+                                    : page === '...'
+                                        ? 'border-transparent text-gray-400 cursor-default'
+                                        : 'border-gray-300 bg-white text-gray-700'
+                                    }`}
+                            >
+                                {page}
+                            </button>
+                            {/* Point vert sous la page active */}
+                            {page === currentPage && (
+                                <div className="w-1.5 h-1.5 rounded-full bg-green"></div>
+                            )}
+                        </div>
+                    ))}
+
+                    {/* Bouton Suivant */}
+                    <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className={`w-[30px] h-[30px] cursor-pointer text-3xl rounded-[37.5px] flex items-center justify-center border border-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${currentPage === totalPages
+                            ? 'bg-[#F4F4F4] text-[#D9D9D9]'
+                            : 'bg-[#F4F4F4] text-green hover:bg-gray-50'
+                            }`}
+                        aria-label="Page suivante"
+                    >
+                        ›
+                    </button>
+                </div>
+            )}
+
         </div>
     );
 }
