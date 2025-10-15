@@ -70,7 +70,7 @@ export default function Label({ labels, loading, open, activeFilters, onToggle, 
                                         <input
                                             type="checkbox"
                                             id={`label-${label.id_label}`}
-                                            checked={activeFilters.includes(label.name_label)} // ✅ Synchronise avec les filtres actifs
+                                            checked={activeFilters.includes(label.name_label)}
                                             onChange={(e) => onLabelToggle(label, e.target.checked)}
                                             className="
         appearance-none

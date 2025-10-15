@@ -30,11 +30,11 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const PRODUCTS_PER_PAGE = 30; // 6 lignes × 5 colonnes
+    const PRODUCTS_PER_PAGE = 30;
 
     useEffect(() => {
         fetchProducts();
-        setCurrentPage(1); // Reset à la page 1 quand les filtres changent
+        setCurrentPage(1);
     }, [filters, sortBy]);
 
     async function fetchProducts() {
@@ -42,7 +42,6 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
         setError(null);
 
         try {
-            // Construire la requête avec les relations
             let query = Supabase
                 .from("Product")
                 .select(`
@@ -53,19 +52,16 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
                     )
                 `);
 
-            // Appliquer les filtres de catégories
             if (filters?.categories && filters.categories.length > 0) {
                 query = query.in('id_Category', filters.categories);
             }
 
-            // Appliquer les filtres de prix
             if (filters?.priceRange) {
                 query = query
                     .gte('price', filters.priceRange[0])
                     .lte('price', filters.priceRange[1]);
             }
 
-            // Appliquer le tri
             switch (sortBy) {
                 case "price-asc":
                     query = query.order("price", { ascending: true });
@@ -77,7 +73,7 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
                     query = query.order("created_at", { ascending: false });
                     break;
                 default:
-                    query = query.order("created_at", { ascending: false }); // Pertinence = fallback
+                    query = query.order("created_at", { ascending: false });
             }
 
             const { data, error: fetchError } = await query;
@@ -89,7 +85,6 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
                 return;
             }
 
-            // Filtrer par labels (car pas possible directement avec Supabase sur many-to-many)
             let filteredData = data || [];
             if (filters?.labels && filters.labels.length > 0) {
                 filteredData = filteredData.filter(product =>
@@ -99,7 +94,6 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
                 );
             }
 
-            // Formater les données
             const formattedProducts = filteredData.map((p: any) => ({
                 id: p.id_Product,
                 name: p.name_Product,
@@ -119,30 +113,26 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
         }
     }
 
-    // Calculs de pagination
     const totalPages = Math.ceil(products.length / PRODUCTS_PER_PAGE);
     const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
     const endIndex = startIndex + PRODUCTS_PER_PAGE;
     const currentProducts = products.slice(startIndex, endIndex);
 
-    // Générer les numéros de pages à afficher
     const getPageNumbers = () => {
         const pages = [];
 
         if (totalPages <= 5) {
-            // Afficher toutes les pages si 5 pages ou moins
+
             for (let i = 1; i <= totalPages; i++) {
                 pages.push(i);
             }
         } else {
-            // Si plus de 5 pages : 1, 2, 3, ..., dernière
+
             if (currentPage <= 3) {
                 pages.push(1, 2, 3, '...', totalPages);
             } else if (currentPage >= totalPages - 2) {
-                // À la fin : 1, ..., avant-dernière-2, avant-dernière-1, avant-dernière, dernière
                 pages.push(1, '...', totalPages - 2, totalPages - 1, totalPages);
             } else {
-                // Au milieu : afficher autour de la page actuelle
                 pages.push(1, '...', currentPage, '...', totalPages);
             }
         }
@@ -155,7 +145,6 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // État de chargement
     if (loading) {
         return (
             <div className="grid grid-cols-2 min-[600px]:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-3 p-3 sm:p-6 justify-items-center">
@@ -174,7 +163,6 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
         );
     }
 
-    // État d'erreur
     if (error) {
         return (
             <div className="p-6">
@@ -191,8 +179,6 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
         );
     }
 
-    // Pas de produits
-    // Pas de produits
     if (products.length === 0) {
         return (
             <div className="flex justify-center items-center w-full min-h-[300px]">
@@ -205,10 +191,10 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
     }
 
 
-    // Affichage des produits avec pagination
+
     return (
         <div className="w-full">
-            {/* Liste des produits - 2 colonnes sur mobile (360-599px), puis auto-fill après 600px */}
+
             <div className="grid grid-cols-2 max-[410px]:grid-cols-1 min-[600px]:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-3 p-3 sm:p-6 justify-items-center">
 
                 {currentProducts.map((product) => (

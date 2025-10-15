@@ -34,7 +34,7 @@ export default function ProductCard({
 
     return (
         <div className="w-full max-w-[292.8px] min-w-[160px] h-[240px] min-[450px]:h-[280px] min-[600px]:h-[348px] bg-white rounded-[10px] overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col group cursor-pointer relative">
-            {/* Image avec labels - Hauteur fixe */}
+
             <div className="w-full h-[180px] min-[450px]:h-[210px] min-[600px]:h-[260px] relative overflow-hidden bg-gray-100 flex-shrink-0">
                 <Image
                     src={Img_Product}
@@ -44,7 +44,6 @@ export default function ProductCard({
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 292px"
                 />
 
-                {/* Labels en haut à GAUCHE - Taille originale */}
                 {processedLabels && processedLabels.length > 0 && (
                     <div className="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
                         {processedLabels.map((label, index) => (
@@ -77,7 +76,7 @@ export default function ProductCard({
                 )}
             </div>
 
-            {/* Informations du produit - Prend l'espace restant */}
+
             <div className="w-full flex-1 flex flex-col justify-center px-4 py-2">
                 <h3 className="text-lightblack font-semibold text-sm leading-tight line-clamp-2 group-hover:text-green-600 transition-colors">
                     {name_Product}

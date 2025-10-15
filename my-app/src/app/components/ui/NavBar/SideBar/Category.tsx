@@ -9,7 +9,7 @@ interface CategoryProps {
     loading: boolean;
     open: boolean;
     onToggle: () => void;
-    onCategorySelect: (category: CategoryType) => void; // ✅ modifié ici aussi
+    onCategorySelect: (category: CategoryType) => void;
     activeCategoryIds: number[];
 }
 
@@ -50,9 +50,9 @@ export default function Category({
                         categories.map((cat) => (
                             <li
                                 key={cat.id_Category}
-                                onClick={() => onCategorySelect(cat)} // ✅ clic pour filtrer
+                                onClick={() => onCategorySelect(cat)}
                                 className={`text-gray hover:text-gray-600 cursor-pointer ${activeCategoryIds.includes(cat.id_Category)
-                                    ? "font-semibold text-green" // ✅ active visuellement
+                                    ? "font-semibold text-green"
                                     : ""
                                     }`}
                             >

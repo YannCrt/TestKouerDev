@@ -267,18 +267,15 @@ export default function FilterBar({ count, onSortChange, onFiltersChange }: Filt
                         )}
                     </div>
 
-                    {/* Bouton filtres mobile & tablette */}
-                    {/* Bouton filtres mobile & tablette */}
                     <button
                         onClick={() => setShowFilterOverlay(true)}
                         className="flex items-center justify-center gap-2 px-4 sm:px-6 py-3 bg-green text-white rounded-3xl  max-[900px]:p-3 hover:bg-green-600 transition-colors min-[360px]:flex min-[1100px]:hidden"
                     >
-                        {/* 🟢 Texte visible uniquement entre 900px et 1099px */}
+
                         <span className=" max-[900px]:hidden inline-block max-[1099px]:inline-block text-base">
                             Filtres ({getFilteredProductCount()})
                         </span>
 
-                        {/* 🔵 SVG visible tout le temps (mais seul sous 900px) */}
                         <svg
                             width="16"
                             height="14"
