@@ -194,9 +194,9 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
     // Pas de produits
     if (products.length === 0) {
         return (
-            <div className="p-6">
-                <div className="bg-gray-50 rounded-lg p-12 text-center">
-                    <p className="text-gray-500 text-lg mb-2">Aucun produit trouvé</p>
+            <div className="max-[1099px]:py-50 max-[450px]:py-20 text-center">
+                <div className="bg-gray-50 rounded-lg p-12 ">
+                    <p className="text-gray-500 text-lg  mb-2">Aucun produit trouvé</p>
                     <p className="text-gray-400 text-sm">Essayez de modifier vos filtres</p>
                 </div>
             </div>
@@ -207,7 +207,8 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
     return (
         <div className="w-full">
             {/* Liste des produits - 2 colonnes sur mobile (360-599px), puis auto-fill après 600px */}
-            <div className="grid grid-cols-2 min-[600px]:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-3 p-3 sm:p-6 justify-items-center">
+            <div className="grid grid-cols-2 max-[410px]:grid-cols-1 min-[600px]:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-3 p-3 sm:p-6 justify-items-center">
+
                 {currentProducts.map((product) => (
                     <ProductCard
                         key={product.id}
