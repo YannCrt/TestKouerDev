@@ -1,1 +1,6 @@
 # TestKouerDev
+
+-- fichier .env à créer pour le relier avec la base de données supabase =
+
+NEXT_PUBLIC_SUPABASE_URL=https://rseoxdxcwrcznqnavjxz.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJzZW94ZHhjd3Jjem5xbmF2anh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNjI1NjksImV4cCI6MjA3NTkzODU2OX0.sBddjdgViD0jdlA9NEPWwLL5q-AqoEe5GyXdRiJaBjE
