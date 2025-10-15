@@ -53,10 +53,18 @@ export default function FilterBar({ count, onSortChange, onFiltersChange }: Filt
     useEffect(() => {
         async function fetchCategories() {
             const { data: cats, error } = await Supabase.from("Category").select("*");
-            if (error) console.error("❌ Erreur Category:", error);
+            if (error) {
+                console.error("❌ Erreur Category:", error);
+                setLoadingCat(false);
+                return;
+            }
 
             const { data: products, error: prodError } = await Supabase.from("Product").select("id_Category");
-            if (prodError) console.error("❌ Erreur produits:", prodError);
+            if (prodError) {
+                console.error("❌ Erreur produits:", prodError);
+                setLoadingCat(false);
+                return;
+            }
 
             const countsByCat = products?.reduce((acc, p) => {
                 if (p.id_Category) acc[p.id_Category] = (acc[p.id_Category] || 0) + 1;
@@ -79,33 +87,44 @@ export default function FilterBar({ count, onSortChange, onFiltersChange }: Filt
     // Fetch labels depuis Supabase
     useEffect(() => {
         async function fetchLabels() {
-            const { data: labelsData, error: labelError } = await Supabase.from("Label").select("*");
+            // ✅ Récupère tous les labels
+            const { data: labelsData, error: labelError } = await Supabase
+                .from("Label")
+                .select("id_label, name_label");
+
             if (labelError) {
                 console.error("❌ Erreur Label:", labelError);
                 setLoadingLabel(false);
                 return;
             }
 
-            const { data: productLabels, error: linkError } = await Supabase.from("Product_Label").select("*");
+            // ✅ Récupère la table de liaison Product_Label
+            const { data: productLabels, error: linkError } = await Supabase
+                .from("Product_Label")
+                .select("id, id_Product, id_Label");
+
             if (linkError) {
                 console.error("❌ Erreur Product_Label:", linkError);
                 setLoadingLabel(false);
                 return;
             }
 
+            // ✅ Compte combien de produits ont chaque label
             const labelCount: Record<number, number> = {};
-            productLabels?.forEach((p: any) => {
-                const labelId = p["#id_Label"] || p.id_Label || p.id_label;
-                if (labelId) labelCount[labelId] = (labelCount[labelId] || 0) + 1;
+            productLabels?.forEach((pl: any) => {
+                if (pl.id_Label) {
+                    labelCount[pl.id_Label] = (labelCount[pl.id_Label] || 0) + 1;
+                }
             });
 
-            const labelsWithCount =
-                labelsData?.map((l: any) => ({
-                    id_label: l.id_Label || l.id_label,
-                    name_label: l.name_label || l.name_label,
-                    product_count: labelCount[l.id_Label || l.id_label] || 0,
-                })) || [];
+            // ✅ Map les labels avec leur count
+            const labelsWithCount = labelsData?.map((l: any) => ({
+                id_label: l.id_label,
+                name_label: l.name_label,
+                product_count: labelCount[l.id_label] || 0,
+            })) || [];
 
+            console.log("🏷️ Labels chargés:", labelsWithCount);
             setLabels(labelsWithCount);
             setLoadingLabel(false);
         }
@@ -113,11 +132,16 @@ export default function FilterBar({ count, onSortChange, onFiltersChange }: Filt
         fetchLabels();
     }, []);
 
-    // Synchroniser les filtres
+    // ✅ Synchroniser les filtres à CHAQUE changement
     useEffect(() => {
         const selectedLabelIds = labels
             .filter((l) => activeFilters.includes(l.name_label))
             .map((l) => l.id_label);
+
+        console.log("🔍 Filtres actifs:", {
+            categories: selectedCategories,
+            labels: selectedLabelIds,
+        });
 
         if (onFiltersChange) {
             onFiltersChange({
@@ -125,7 +149,7 @@ export default function FilterBar({ count, onSortChange, onFiltersChange }: Filt
                 labels: selectedLabelIds,
             });
         }
-    }, [activeFilters, labels, selectedCategories]);
+    }, [activeFilters, selectedCategories]); // ✅ Retiré labels et onFiltersChange
 
     const handleSelect = (option: string) => {
         setSelectedSort(option);
@@ -134,12 +158,14 @@ export default function FilterBar({ count, onSortChange, onFiltersChange }: Filt
     };
 
     const handleLabelToggle = (label: LabelType, checked: boolean) => {
+        console.log("🏷️ Toggle label:", label.name_label, checked);
         setActiveFilters((prev) =>
             checked ? [...prev, label.name_label] : prev.filter((f) => f !== label.name_label)
         );
     };
 
     const handleCategorySelect = (cat: CategoryType) => {
+        console.log("📁 Toggle category:", cat.name_Category);
         setSelectedCategories((prev) =>
             prev.includes(cat.id_Category)
                 ? prev.filter((id) => id !== cat.id_Category)
@@ -147,16 +173,39 @@ export default function FilterBar({ count, onSortChange, onFiltersChange }: Filt
         );
     };
 
+    // ✅ clearFilters réinitialise TOUT
     const clearFilters = () => {
+        console.log("🧹 Effacement de tous les filtres");
         setActiveFilters([]);
         setSelectedCategories([]);
     };
 
     const removeFilter = (filter: string) => {
+        console.log("❌ Suppression du filtre:", filter);
         setActiveFilters((prev) => prev.filter((f) => f !== filter));
     };
 
+    // ✅ Calculer le nombre de filtres actifs
     const filterCount = activeFilters.length + selectedCategories.length;
+
+    // ✅ Calculer le nombre de produits filtrés (estimation)
+    const getFilteredProductCount = () => {
+        let count = 0;
+
+        // Ajouter les produits des catégories sélectionnées
+        selectedCategories.forEach(catId => {
+            const cat = categories.find(c => c.id_Category === catId);
+            if (cat) count += cat.product_count || 0;
+        });
+
+        // Ajouter les produits des labels sélectionnés
+        activeFilters.forEach(filterName => {
+            const label = labels.find(l => l.name_label === filterName);
+            if (label) count += label.product_count || 0;
+        });
+
+        return count;
+    };
 
     return (
         <>
@@ -175,14 +224,14 @@ export default function FilterBar({ count, onSortChange, onFiltersChange }: Filt
                 <div className="min-[900px]:hidden"></div>
 
                 {/* Container pour tri et filtres */}
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between gap-4">
                     {/* Dropdown de tri */}
-                    <div className="relative ">
+                    <div className="relative">
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="flex items-center gap-2 text-base "
+                            className="flex items-center gap-2 text-base"
                         >
-                            <span className="text-base sm:text-lg ">Trier par</span>
+                            <span className="text-base sm:text-lg">Trier par</span>
                             <span className="font-medium text-gray text-base sm:text-lg">{selectedSort}</span>
                             <svg
                                 className={`w-[18px] h-[18px] sm:w-[22.5px] sm:h-[22.5px] text-gray-800 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''
@@ -233,10 +282,9 @@ export default function FilterBar({ count, onSortChange, onFiltersChange }: Filt
                 </div>
             </div>
 
-            {/* Overlay mobile & tablette des filtres */}
+            {/* ✅ Overlay mobile & tablette des filtres */}
             {showFilterOverlay && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 z-50 min-[1100px]:hidden">
-                    {/* Sidebar avec 3 breakpoints responsive */}
                     <div className="absolute right-0 top-0 h-full w-full bg-white shadow-xl overflow-y-auto">
                         {/* Header de l'overlay */}
                         <div className="sticky top-0 bg-white border-b-1 p-4 flex right-0 items-center z-10">
@@ -250,14 +298,14 @@ export default function FilterBar({ count, onSortChange, onFiltersChange }: Filt
                             </button>
                         </div>
 
-                        {/* Contenu des filtres - Utilisation de tes composants existants */}
+                        {/* Contenu des filtres */}
                         <div className="p-10">
                             <Filters
                                 activeFilters={activeFilters}
                                 onRemoveFilter={removeFilter}
                                 onClearAll={clearFilters}
-                                mobile={true}               // ✅ active le mode mobile
-                                productCount={42}           // ✅ nombre de produits filtrés
+                                mobile={true}
+                                productCount={getFilteredProductCount()}
                             />
                             <Category
                                 categories={categories}

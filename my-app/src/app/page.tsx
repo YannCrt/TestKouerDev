@@ -1,7 +1,7 @@
 // C:\MesProjets\TestKouerDev\my-app\src\app\page.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getProductCount } from "../lib/products";
 import FilterBar from "./components/ui/NavBar/FilterBar";
 import Sidebar from './components/ui/NavBar/SideBar/SideBar';
@@ -41,7 +41,7 @@ export default function Home() {
         sortValue = "price-desc";
         break;
       case "Nouveauté":
-        sortValue = "newest"; // si tu veux gérer ça par created_at desc
+        sortValue = "newest";
         break;
       case "Pertinence":
       default:
@@ -51,16 +51,24 @@ export default function Home() {
     setSortBy(sortValue);
   };
 
-
-  const handleFiltersChange = (newFilters: Filters) => {
+  // ✅ Utilise useCallback pour stabiliser la fonction
+  const handleFiltersChange = useCallback((newFilters: Filters) => {
+    console.log("🔄 Nouveaux filtres reçus:", newFilters);
     setFilters(newFilters);
-  };
+  }, []);
 
   return (
     <div className="">
-      <FilterBar count={count} onSortChange={handleSortChange} />
+      {/* ✅ FilterBar reçoit maintenant onFiltersChange */}
+      <FilterBar
+        count={count}
+        onSortChange={handleSortChange}
+        onFiltersChange={handleFiltersChange}
+      />
       <div className='flex'>
+        {/* ✅ Sidebar utilise la même fonction */}
         <Sidebar onFiltersChange={handleFiltersChange} />
+        {/* ✅ ProductList reçoit les filtres unifiés */}
         <ProductList filters={filters} sortBy={sortBy} />
       </div>
     </div>
