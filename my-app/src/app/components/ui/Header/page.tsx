@@ -41,7 +41,7 @@ export default function Header() {
                 </div>
 
                 {/* Titre responsive */}
-                <h1 className="text-white pb-4 md:pb-7 font-medium leading-tight md:leading-[70px] tracking-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
+                <h1 className="text-white pb-4 md:pb-7 font-medium leading-tight md:leading-[70px] tracking-normal min-w-[500px]: text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
                     Tous nos produits
                 </h1>
             </div>

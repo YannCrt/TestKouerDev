@@ -207,7 +207,7 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
     return (
         <div className="w-full">
             {/* Liste des produits */}
-            <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-3 p-6">
+            <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-3 p-6 justify-items-center">
                 {currentProducts.map((product) => (
                     <ProductCard
                         key={product.id}
@@ -243,7 +243,7 @@ export default function ProductList({ filters, sortBy = 'pertinence' }: ProductL
                             <button
                                 onClick={() => typeof page === 'number' && handlePageChange(page)}
                                 disabled={page === '...'}
-                                className={`min-w-[40px] px-3 py-2 rounded-lg transition-colors ${page === currentPage
+                                className={`min-w-[40px] px-3 py-2 rounded-lg transition-colors cursor-pointer ${page === currentPage
                                     ? 'bg-white text-green'
                                     : page === '...'
                                         ? 'border-transparent text-gray-400 cursor-default'

@@ -43,8 +43,7 @@ export default function ProductCard({
 
 
     return (
-        <div className="w-full max-w-[292.8px] min-w-[240px] h-[348px] bg-white rounded-[10px] overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col group cursor-pointer relative">
-            {/* Image avec labels */}
+        <div className="w-full max-w-[292.8px] min-w-[160px] sm:min-w-[240px] content-center items-center mr-0 align-center h-[348px] bg-white rounded-[10px] overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 flex flex-col group cursor-pointer relative">      {/* Image avec labels */}
             <div className="w-full h-[260px] relative overflow-hidden bg-gray-100">
                 <Image
                     src={Img_Product}
